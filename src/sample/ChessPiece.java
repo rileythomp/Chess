@@ -24,4 +24,9 @@ public class ChessPiece {
     public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board) {
         return new ArrayList<>();
     }
+
+    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board, boolean canCastle) {
+        return new ArrayList<>();
+    }
+
 }

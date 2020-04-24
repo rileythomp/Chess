@@ -20,18 +20,18 @@ public class Board {
                     if (j == 0 || j == 7) {
                         boardCell = new BoardCell(Pieces.ROOK, true, j, i, new Rook());
                     }
-//                    else if (j == 1  || j == 6) {
-//                        boardCell = new BoardCell(Pieces.KNIGHT, true, j, i, new Knight());
-//                    }
-//                    else if (j == 2 || j == 5) {
-//                        boardCell = new BoardCell(Pieces.BISHOP, true, j, i, new Bishop());
-//                    }
+                    else if (j == 1  || j == 6) {
+                        boardCell = new BoardCell(Pieces.KNIGHT, true, j, i, new Knight());
+                    }
+                    else if (j == 2 || j == 5) {
+                        boardCell = new BoardCell(Pieces.BISHOP, true, j, i, new Bishop());
+                    }
                     else if (j == 4) {
                         boardCell = new BoardCell(Pieces.KING, true, j, i, new King());
                     }
-//                    else if (j == 3) {
-//                        boardCell = new BoardCell(Pieces.QUEEN, true, j, i, new Queen());
-//                    }
+                    else if (j == 3) {
+                        boardCell = new BoardCell(Pieces.QUEEN, true, j, i, new Queen());
+                    }
                     else {
                         boardCell = new BoardCell(j, i);
                     }
@@ -46,15 +46,15 @@ public class Board {
                     if (j == 0 || j == 7) {
                         boardCell = new BoardCell(Pieces.ROOK, false, j, i, new Rook());
                     }
-//                    else if (j == 1  || j == 6) {
-//                        boardCell = new BoardCell(Pieces.KNIGHT, false, j, i, new Knight());
-//                    }
-//                    else if (j == 2 || j == 5) {
-//                        boardCell = new BoardCell(Pieces.BISHOP, false, j, i, new Bishop());
-//                    }
-//                    else if (j == 3) {
-//                        boardCell = new BoardCell(Pieces.QUEEN, false, j, i, new Queen());
-//                    }
+                    else if (j == 1  || j == 6) {
+                        boardCell = new BoardCell(Pieces.KNIGHT, false, j, i, new Knight());
+                    }
+                    else if (j == 2 || j == 5) {
+                        boardCell = new BoardCell(Pieces.BISHOP, false, j, i, new Bishop());
+                    }
+                    else if (j == 3) {
+                        boardCell = new BoardCell(Pieces.QUEEN, false, j, i, new Queen());
+                    }
                     else if (j == 4) {
                         boardCell = new BoardCell(Pieces.KING, false, j, i, new King());
                     }
@@ -78,7 +78,43 @@ public class Board {
         }
     }
 
-    public boolean InCheckAt(int x, int y) {
+    public boolean InCheckAt(int x, int y, int offset) {
+        for (int i = 0; i < LEN; ++i) {
+            for (int j = 0; j < LEN; ++j) {
+                if (cells.get(i).get(j).isP1Piece() && !cells.get(y).get(x).isP1Piece()) {
+
+                    ArrayList<Pair<Integer, Integer>> enemyMoves;
+                    if (cells.get(i).get(j).PieceName() == Pieces.KING) {
+                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this, true);
+                    }
+                    else {
+                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this);
+                    }
+
+                    for (Pair<Integer, Integer> enemyMove : enemyMoves) {
+                        if (enemyMove.getKey() == x+offset && enemyMove.getValue() == y) {
+                            return true;
+                        }
+                    }
+                }
+                else if (!cells.get(i).get(j).isP1Piece() && cells.get(y).get(x).isP1Piece()) {
+
+                    ArrayList<Pair<Integer, Integer>> enemyMoves = new ArrayList<>();
+                    if (cells.get(i).get(j).PieceName() == Pieces.KING) {
+                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this, true);
+                    }
+                    else if (cells.get(i).get(j).HasPiece()) {
+                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this);
+                    }
+
+                    for (Pair<Integer, Integer> enemyMove : enemyMoves) {
+                        if (enemyMove.getKey() == x+offset && enemyMove.getValue() == y) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
