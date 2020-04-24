@@ -85,22 +85,72 @@ public class ChessView {
         gameRoot.getChildren().add(turnMessage);
 
         gameScene = new Scene(gameRoot, SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND_COLOR);
+
+        if (chessGame.Turn() == Turn.P1PromotionSelect || chessGame.Turn() == Turn.P2PromotionSelect) {
+            String promotionText = "Please enter what piece you'd like to promote your pawn to: \n\n" +
+                    "q - Queen \n\n" +
+                    "r - Rook \n\n" +
+                    "b - Bishop \n\n" +
+                    "k - Knight \n\n";
+
+            Text promotionMessage = Util.CreateTextNode(
+                    promotionText,
+                    FONT_NAME, FontWeight.NORMAL, Color.BLACK, FONT_SIZE/2,
+                    50, 50 + CELL_LEN * board.Length() + 33 + 33 + 33
+            );
+
+            gameRoot.getChildren().add(promotionMessage);
+            gameScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    KeyCode pressed = keyEvent.getCode();
+                    if (pressed == KeyCode.Q) {
+                        chessGame.PromotePieceTo(Pieces.QUEEN);
+                        gameRoot.getChildren().remove(promotionMessage);
+                        DisplayGame(chessGame.Board(), chessGame.Turn());
+                    }
+                    else if (pressed == KeyCode.R) {
+                        chessGame.PromotePieceTo(Pieces.ROOK);
+                        gameRoot.getChildren().remove(promotionMessage);
+                        DisplayGame(chessGame.Board(), chessGame.Turn());
+                    }
+                    else if (pressed == KeyCode.B) {
+                        chessGame.PromotePieceTo(Pieces.BISHOP);
+                        gameRoot.getChildren().remove(promotionMessage);
+                        DisplayGame(chessGame.Board(), chessGame.Turn());
+                    }
+                    else if (pressed == KeyCode.K) {
+                        chessGame.PromotePieceTo(Pieces.KNIGHT);
+                        gameRoot.getChildren().remove(promotionMessage);
+                        DisplayGame(chessGame.Board(), chessGame.Turn());
+                    }
+                }
+            });
+        }
         gameStage.setScene(gameScene);
     }
 
     private String GetTurnText(Turn turn) {
+        String msg = "";
         if (turn == Turn.P1PieceSelect) {
-            return "Player 1 select piece";
+            msg = "Player 1 select piece";
         }
         else if (turn == Turn.P1PlaceSelect) {
-            return "Player 1 place piece";
+            msg = "Player 1 place piece";
         }
         else if (turn == Turn.P2PieceSelect) {
-            return "Player 2 select piece";
+            msg = "Player 2 select piece";
         }
-        else {
-            return "Player 2 place piece";
+        else if (turn == Turn.P2PlaceSelect){
+            msg = "Player 2 place piece";
         }
+        else if (turn == Turn.P1PromotionSelect) {
+            msg = "Player 1 choose promotion piece";
+        }
+        else if (turn == Turn.P2PromotionSelect){
+            msg = "Player 2 choose promotion piece";
+        }
+        return msg;
     }
 
     private void DisplayBoard(Board board) {
@@ -134,61 +184,41 @@ public class ChessView {
             public void handle(MouseEvent mouseEvent) {
                 // Selecting Pieces
                 if (boardCell.HasPiece() && boardCell.ChessPiece().CanMove(x, y, board) && boardCell.isP1Piece() && chessGame.Turn() == Turn.P1PieceSelect) {
-                    chessGame.UpdateTurn();
-                    board.ResetCells();
-                    boardCell.ClickCell();
-                    board.MarkPossibleMoves(boardCell);
+                    chessGame.SelectPiece(boardCell, true);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
                 else if (boardCell.HasPiece() && boardCell.ChessPiece().CanMove(x, y, board) && !boardCell.isP1Piece() && chessGame.Turn() == Turn.P2PieceSelect) {
-                    chessGame.UpdateTurn();
-                    board.ResetCells();
-                    boardCell.ClickCell();
-                    board.MarkPossibleMoves(boardCell);
+                    chessGame.SelectPiece(boardCell, true);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
                 else if (boardCell.HasPiece() && boardCell.ChessPiece().CanMove(x, y, board) && boardCell.isP1Piece() && chessGame.Turn() == Turn.P1PlaceSelect) {
-//                    chessGame.UpdateTurn();
-                    board.ResetCells();
-                    boardCell.ClickCell();
-                    board.MarkPossibleMoves(boardCell);
+                    chessGame.SelectPiece(boardCell, false);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
                 else if (boardCell.HasPiece() && boardCell.ChessPiece().CanMove(x, y, board) && !boardCell.isP1Piece() && chessGame.Turn() == Turn.P2PlaceSelect) {
-//                    chessGame.UpdateTurn();
-                    board.ResetCells();
-                    boardCell.ClickCell();
-                    board.MarkPossibleMoves(boardCell);
+                    chessGame.SelectPiece(boardCell, false);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
 
                 // Placing Pieces
                 else if (chessGame.Turn() == Turn.P1PlaceSelect && boardCell.CanBeMovedTo() && !boardCell.HasPiece()) {
                     // can move here
-                    chessGame.UpdateTurn();
-                    board.MoveSelectedPieceTo(x, y);
-                    board.ResetCells();
+                    chessGame.PlacePiece(x, y);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
                 else if (chessGame.Turn() == Turn.P1PlaceSelect && boardCell.CanBeMovedTo()&& !boardCell.isP1Piece()) {
                     // can move here
-                    chessGame.UpdateTurn();
-                    board.MoveSelectedPieceTo(x, y);
-                    board.ResetCells();
+                    chessGame.PlacePiece(x, y);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
                 else if (chessGame.Turn() == Turn.P2PlaceSelect && boardCell.CanBeMovedTo() && !boardCell.HasPiece()) {
                     // can move here
-                    chessGame.UpdateTurn();
-                    board.MoveSelectedPieceTo(x, y);
-                    board.ResetCells();
+                    chessGame.PlacePiece(x, y);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
                 else if (chessGame.Turn() == Turn.P2PlaceSelect && boardCell.CanBeMovedTo() && boardCell.isP1Piece()) {
                     // can move here
-                    chessGame.UpdateTurn();
-                    board.MoveSelectedPieceTo(x, y);
-                    board.ResetCells();
+                    chessGame.PlacePiece(x, y);
                     DisplayGame(chessGame.Board(), chessGame.Turn());
                 }
             }
@@ -201,6 +231,14 @@ public class ChessView {
             cellView.setFill(Color.GREEN);
             cellView.opacityProperty().set(0.5);
         }
+//        if (boardCell.IsEnPassant() > 0) {
+//            cellView.setFill(Color.RED);
+//            cellView.opacityProperty().set(0.5);
+//        }
+        if (boardCell.IsGettingPromoted()) {
+            cellView.setFill(Color.BLUE);
+            cellView.opacityProperty().set(0.5);
+        }
         cellView.addEventFilter(MouseEvent.MOUSE_CLICKED, handleCellClick);
         gameRoot.getChildren().add(cellView);
     }
@@ -210,50 +248,50 @@ public class ChessView {
 
         if (Pieces.PAWN == boardCell.PieceName()) {
             if (boardCell.isP1Piece()) {
-                pieceView = new ImageView(WHITE_PAWN);
+                pieceView = new ImageView(BLACK_PAWN);
             }
             else {
-                pieceView = new ImageView(BLACK_PAWN);
+                pieceView = new ImageView(WHITE_PAWN);
             }
         }
         else if (Pieces.BISHOP == boardCell.PieceName()) {
             if (boardCell.isP1Piece()) {
-                pieceView = new ImageView(WHITE_BISHOP);
+                pieceView = new ImageView(BLACK_BISHOP);
             }
             else {
-                pieceView = new ImageView(BLACK_BISHOP);
+                pieceView = new ImageView(WHITE_BISHOP);
             }
         }
         else if (Pieces.ROOK == boardCell.PieceName()) {
             if (boardCell.isP1Piece()) {
-                pieceView = new ImageView(WHITE_ROOK);
+                pieceView = new ImageView(BLACK_ROOK);
             }
             else {
-                pieceView = new ImageView(BLACK_ROOK);
+                pieceView = new ImageView(WHITE_ROOK);
             }
         }
         else if (Pieces.KNIGHT == boardCell.PieceName()) {
             if (boardCell.isP1Piece()) {
-                pieceView = new ImageView(WHITE_KNIGHT);
+                pieceView = new ImageView(BLACK_KNIGHT);
             }
             else {
-                pieceView = new ImageView(BLACK_KNIGHT);
+                pieceView = new ImageView(WHITE_KNIGHT);
             }
         }
         else if (Pieces.QUEEN == boardCell.PieceName()) {
             if (boardCell.isP1Piece()) {
-                pieceView = new ImageView(WHITE_QUEEN);
+                pieceView = new ImageView(BLACK_QUEEN);
             }
             else {
-                pieceView = new ImageView(BLACK_QUEEN);
+                pieceView = new ImageView(WHITE_QUEEN);
             }
         }
         else if (Pieces.KING == boardCell.PieceName()) {
             if (boardCell.isP1Piece()) {
-                pieceView = new ImageView(WHITE_KING);
+                pieceView = new ImageView(BLACK_KING);
             }
             else {
-                pieceView = new ImageView(BLACK_KING);
+                pieceView = new ImageView(WHITE_KING);
             }
         }
         else {

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class ChessPiece {
 
     public boolean hasMoved;
+    public int direction;
 
     public ChessPiece() {
         hasMoved = false;

@@ -20,18 +20,18 @@ public class Board {
                     if (j == 0 || j == 7) {
                         boardCell = new BoardCell(Pieces.ROOK, true, j, i, new Rook());
                     }
-                    else if (j == 1  || j == 6) {
-                        boardCell = new BoardCell(Pieces.KNIGHT, true, j, i, new Knight());
-                    }
-                    else if (j == 2 || j == 5) {
-                        boardCell = new BoardCell(Pieces.BISHOP, true, j, i, new Bishop());
-                    }
-                    else if (j == 3) {
+//                    else if (j == 1  || j == 6) {
+//                        boardCell = new BoardCell(Pieces.KNIGHT, true, j, i, new Knight());
+//                    }
+//                    else if (j == 2 || j == 5) {
+//                        boardCell = new BoardCell(Pieces.BISHOP, true, j, i, new Bishop());
+//                    }
+                    else if (j == 4) {
                         boardCell = new BoardCell(Pieces.KING, true, j, i, new King());
                     }
-                    else if (j == 4) {
-                        boardCell = new BoardCell(Pieces.QUEEN, true, j, i, new Queen());
-                    }
+//                    else if (j == 3) {
+//                        boardCell = new BoardCell(Pieces.QUEEN, true, j, i, new Queen());
+//                    }
                     else {
                         boardCell = new BoardCell(j, i);
                     }
@@ -46,24 +46,21 @@ public class Board {
                     if (j == 0 || j == 7) {
                         boardCell = new BoardCell(Pieces.ROOK, false, j, i, new Rook());
                     }
-                    else if (j == 1  || j == 6) {
-                        boardCell = new BoardCell(Pieces.KNIGHT, false, j, i, new Knight());
-                    }
-                    else if (j == 2 || j == 5) {
-                        boardCell = new BoardCell(Pieces.BISHOP, false, j, i, new Bishop());
-                    }
-                    else if (j == 3) {
-                        boardCell = new BoardCell(Pieces.QUEEN, false, j, i, new Queen());
-                    }
+//                    else if (j == 1  || j == 6) {
+//                        boardCell = new BoardCell(Pieces.KNIGHT, false, j, i, new Knight());
+//                    }
+//                    else if (j == 2 || j == 5) {
+//                        boardCell = new BoardCell(Pieces.BISHOP, false, j, i, new Bishop());
+//                    }
+//                    else if (j == 3) {
+//                        boardCell = new BoardCell(Pieces.QUEEN, false, j, i, new Queen());
+//                    }
                     else if (j == 4) {
                         boardCell = new BoardCell(Pieces.KING, false, j, i, new King());
                     }
                     else {
                         boardCell = new BoardCell(j, i);
                     }
-                }
-                else {
-                    boardCell = new BoardCell(j, i);
                 }
 
                 row.add(boardCell);
@@ -81,6 +78,10 @@ public class Board {
         }
     }
 
+    public boolean InCheckAt(int x, int y) {
+        return false;
+    }
+
     public BoardCell Cell(int x, int y) {
         return cells.get(y).get(x);
     }
@@ -94,19 +95,63 @@ public class Board {
         }
     }
 
+    public void PromotePieceTo(Pieces name) {
+        for (int i = 0; i < LEN; ++i) {
+            for (int j = 0; j < LEN; ++j) {
+                if (cells.get(i).get(j).IsGettingPromoted()) {
+                    cells.get(i).get(j).PromotePieceTo(name);
+                }
+            }
+        }
+    }
+
+    public void UnEnPassantAndPromotion() {
+        for (int i = 0; i < LEN; ++i) {
+            for (int j = 0; j < LEN; ++j) {
+                if (cells.get(i).get(j).IsEnPassant() == 1) {
+                    cells.get(i).get(j).SetEnPassant(2);
+                }
+                cells.get(i).get(j).SetGettingPromoted(false);
+
+            }
+        }
+    }
+
     public void MoveSelectedPieceTo(int x, int y) {
         BoardCell selectedCell = new BoardCell(0, 0);
         for (int i = 0; i < LEN; ++i) {
             for (int j = 0; j < LEN; ++j) {
                 if (cells.get(i).get(j).isClicked()) {
                     selectedCell = cells.get(i).get(j);
+                    if (selectedCell.PieceName() == Pieces.PAWN && Math.abs(i - y) == 2) {
+                        cells.get(i+selectedCell.ChessPiece().direction).get(j).SetEnPassant(1);
+                    }
                     cells.get(i).set(j, new BoardCell(j, i));
                 }
             }
         }
+
         selectedCell.SetCoords(x, y);
         selectedCell.SetHasMoved();
+        selectedCell.SetEnPassant(cells.get(y).get(x).IsEnPassant());
         cells.get(y).set(x, selectedCell);
+        // IF THE CELL MOVED TO BY THE PAWN IS ENPASSANT2, THEN REMOVE THE PIECE BELOW IT
+        if (cells.get(y).get(x).IsEnPassant() == 2) {
+            cells.get(y - cells.get(y).get(x).ChessPiece().direction).set(x, new BoardCell(x, y - cells.get(y).get(x).ChessPiece().direction));
+        }
+
+        if (selectedCell.PieceName() == Pieces.PAWN && selectedCell.isP1Piece() && y == 7) {
+            cells.get(y).get(x).SetGettingPromoted(true);
+        }
+        else if (selectedCell.PieceName() == Pieces.PAWN && !selectedCell.isP1Piece() && y == 0) {
+            cells.get(y).get(x).SetGettingPromoted(true);
+        }
+
+        for (int i = 0; i < LEN; ++i) {
+            for (int j = 0; j < LEN; ++j) {
+                cells.get(i).get(j).SetEnPassant(cells.get(i).get(j).IsEnPassant()%2);
+            }
+        }
     }
 
     public int Length() {

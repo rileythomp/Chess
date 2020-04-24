@@ -40,6 +40,19 @@ public class King extends ChessPiece {
                 }
             }
         }
+
+        // castling
+        if (!hasMoved && !board.Cell(x+3, y).ChessPiece().hasMoved && !board.Cell(x+1, y).HasPiece() && !board.Cell(x+2, y).HasPiece()) {
+            if (!board.InCheckAt(x+1, y) && !board.InCheckAt(x+2, y) && !board.InCheckAt(x+3, y)) {
+                moves.add(new Pair(x+2, y));
+            }
+        }
+        if (!hasMoved && !board.Cell(x-4, y).ChessPiece().hasMoved && !board.Cell(x-1, y).HasPiece() && !board.Cell(x-2, y).HasPiece() && !board.Cell(x-3, y).HasPiece()) {
+            if (!board.InCheckAt(x-1, y) && !board.InCheckAt(x-2, y) && !board.InCheckAt(x-3, y) && !board.InCheckAt(x-3, y)) {
+                moves.add(new Pair(x-2, y));
+            }
+        }
+
         return moves;
     }
 }

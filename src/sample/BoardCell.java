@@ -6,12 +6,16 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BoardCell {
-    private boolean hasPiece;
     private Pieces pieceName;
+    private ChessPiece chessPiece;
+
+    private boolean hasPiece;
     private boolean p1Piece;
     private boolean cellClicked;
-    private ChessPiece chessPiece;
     private boolean canBeMovedTo;
+    private int enPassant;
+    private boolean gettingPromoted;
+
     public int xcoord;
     public int ycoord;
 
@@ -19,6 +23,41 @@ public class BoardCell {
         hasPiece = false;
         xcoord = x;
         ycoord = y;
+    }
+
+    public void PromotePieceTo(Pieces name) {
+        pieceName = name;
+        if (name == Pieces.QUEEN) {
+            chessPiece = new Queen();
+        }
+        else if (name == Pieces.ROOK) {
+            chessPiece = new Rook();
+
+        }
+        else if (name == Pieces.BISHOP) {
+            chessPiece = new Bishop();
+
+        }
+        else if (name == Pieces.KNIGHT) {
+            chessPiece = new Knight();
+        }
+        gettingPromoted = false;
+    }
+
+    public boolean IsGettingPromoted() {
+        return gettingPromoted;
+    }
+
+    public void SetGettingPromoted(boolean promoted) {
+        gettingPromoted = promoted;
+    }
+
+    public int IsEnPassant() {
+        return enPassant;
+    }
+
+    public void SetEnPassant(int bool) {
+        enPassant = bool;
     }
 
     public BoardCell(Pieces name, boolean p1, int x, int y, ChessPiece piece) {
