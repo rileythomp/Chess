@@ -51,14 +51,20 @@ public class King extends ChessPiece {
             int yNew = y + shiftPair.getValue();
             if (xNew >= 0 && xNew <= 7 && yNew >= 0 && yNew <= 7) {
                 if (!board.Cell(xNew, yNew).HasPiece()) {
-                    moves.add(new Pair(xNew, yNew));
+                    if (!board.InCheckAt(xNew, yNew, 0)) {
+                        moves.add(new Pair(xNew, yNew));
+                    }
                 }
                 else {
                     if (board.Cell(x, y).isP1Piece() && !board.Cell(xNew, yNew).isP1Piece()) {
-                        moves.add(new Pair(xNew, yNew));
+                        if (!board.InCheckAt(xNew, yNew, 0)) {
+                            moves.add(new Pair(xNew, yNew));
+                        }
                     }
                     if (!board.Cell(x, y).isP1Piece() && board.Cell(xNew, yNew).isP1Piece()) {
-                        moves.add(new Pair(xNew, yNew));
+                        if (!board.InCheckAt(xNew, yNew, 0)) {
+                            moves.add(new Pair(xNew, yNew));
+                        }
                     }
                 }
             }

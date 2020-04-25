@@ -78,18 +78,21 @@ public class Board {
         }
     }
 
+    public ArrayList<Pair<Integer, Integer>> GetEnemyMoves(int i, int j) {
+        if (cells.get(i).get(j).PieceName() == Pieces.KING) {
+            return cells.get(i).get(j).ChessPiece().Moves(j, i, this, true);
+        }
+        else {
+            return cells.get(i).get(j).ChessPiece().Moves(j, i, this);
+        }
+    }
+
     public boolean InCheckAt(int x, int y, int offset) {
         for (int i = 0; i < LEN; ++i) {
             for (int j = 0; j < LEN; ++j) {
                 if (cells.get(i).get(j).isP1Piece() && !cells.get(y).get(x).isP1Piece()) {
 
-                    ArrayList<Pair<Integer, Integer>> enemyMoves;
-                    if (cells.get(i).get(j).PieceName() == Pieces.KING) {
-                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this, true);
-                    }
-                    else {
-                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this);
-                    }
+                    ArrayList<Pair<Integer, Integer>> enemyMoves = GetEnemyMoves(i, j);
 
                     for (Pair<Integer, Integer> enemyMove : enemyMoves) {
                         if (enemyMove.getKey() == x+offset && enemyMove.getValue() == y) {
@@ -99,13 +102,7 @@ public class Board {
                 }
                 else if (!cells.get(i).get(j).isP1Piece() && cells.get(y).get(x).isP1Piece()) {
 
-                    ArrayList<Pair<Integer, Integer>> enemyMoves = new ArrayList<>();
-                    if (cells.get(i).get(j).PieceName() == Pieces.KING) {
-                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this, true);
-                    }
-                    else if (cells.get(i).get(j).HasPiece()) {
-                        enemyMoves = cells.get(i).get(j).ChessPiece().Moves(j, i, this);
-                    }
+                    ArrayList<Pair<Integer, Integer>> enemyMoves = GetEnemyMoves(i, j);
 
                     for (Pair<Integer, Integer> enemyMove : enemyMoves) {
                         if (enemyMove.getKey() == x+offset && enemyMove.getValue() == y) {
@@ -155,9 +152,11 @@ public class Board {
 
     public void MoveSelectedPieceTo(int x, int y) {
         BoardCell selectedCell = new BoardCell(0, 0);
+        int xShift = 0;
         for (int i = 0; i < LEN; ++i) {
             for (int j = 0; j < LEN; ++j) {
                 if (cells.get(i).get(j).isClicked()) {
+                    xShift = Math.abs(x - j);
                     selectedCell = cells.get(i).get(j);
                     if (selectedCell.PieceName() == Pieces.PAWN && Math.abs(i - y) == 2) {
                         cells.get(i+selectedCell.ChessPiece().direction).get(j).SetEnPassant(1);
@@ -181,6 +180,28 @@ public class Board {
         }
         else if (selectedCell.PieceName() == Pieces.PAWN && !selectedCell.isP1Piece() && y == 0) {
             cells.get(y).get(x).SetGettingPromoted(true);
+        }
+
+        if (cells.get(y).get(x).PieceName() == Pieces.KING && xShift == 2) {
+            // castled
+            // kings good move the rook over 2 to the X (dir)
+            if (x == 2) {
+                BoardCell rookCell = cells.get(y).get(x-2);
+                cells.get(y).set(x-2, new BoardCell(x-2, y));
+                rookCell.SetCoords(x+1, y);
+                rookCell.SetHasMoved();
+                cells.get(y).set(x+1, rookCell);
+            }
+            else if (x == 6) {
+                BoardCell rookCell = cells.get(y).get(x+1);
+                cells.get(y).set(x+1, new BoardCell(x+1, y));
+                rookCell.SetCoords(x-1, y);
+                rookCell.SetHasMoved();
+                cells.get(y).set(x-1, rookCell);
+            }
+            else {
+                System.exit(1);
+            }
         }
 
         for (int i = 0; i < LEN; ++i) {
