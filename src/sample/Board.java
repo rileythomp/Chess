@@ -87,32 +87,49 @@ public class Board {
         }
     }
 
-    public boolean InCheckAt(int x, int y, int offset) {
+    public boolean EnemyCellAt(int i, int j, int x, int y) {
+        BoardCell curCell = cells.get(i).get(j);
+        BoardCell kingCell = cells.get(y).get(x);
+        return curCell.HasPiece() && (curCell.isP1Piece() && !kingCell.isP1Piece() || !curCell.isP1Piece() && kingCell.isP1Piece());
+    }
+
+    public boolean InCheckAt(int x, int y, int xOffset, int yOffset) {
+        // x and y are the start coords of the king
+        // move the king temporarily
+        boolean inCheck = false;
+
+        BoardCell kingCell = cells.get(y).get(x);
+        boolean kingMoved = kingCell.HasMoved();
+        BoardCell newCellOriginal = cells.get(y+yOffset).get(x+xOffset);
+        cells.get(y).set(x, new BoardCell(x, y)); // empty out the current cell
+
+        kingCell.SetCoords(x+xOffset, y+yOffset);
+        kingCell.SetHasMoved(true);
+        cells.get(y+yOffset).set(x+xOffset, kingCell); // put king on the new cell
+
+        // see if the enemypiece can hit the king in its new spot
         for (int i = 0; i < LEN; ++i) {
             for (int j = 0; j < LEN; ++j) {
-                if (cells.get(i).get(j).isP1Piece() && !cells.get(y).get(x).isP1Piece()) {
-
+                if (EnemyCellAt(i, j, x+xOffset, y+yOffset)) {
                     ArrayList<Pair<Integer, Integer>> enemyMoves = GetEnemyMoves(i, j);
 
                     for (Pair<Integer, Integer> enemyMove : enemyMoves) {
-                        if (enemyMove.getKey() == x+offset && enemyMove.getValue() == y) {
-                            return true;
-                        }
-                    }
-                }
-                else if (!cells.get(i).get(j).isP1Piece() && cells.get(y).get(x).isP1Piece()) {
-
-                    ArrayList<Pair<Integer, Integer>> enemyMoves = GetEnemyMoves(i, j);
-
-                    for (Pair<Integer, Integer> enemyMove : enemyMoves) {
-                        if (enemyMove.getKey() == x+offset && enemyMove.getValue() == y) {
-                            return true;
+                        if (enemyMove.getKey() == x+xOffset && enemyMove.getValue() == y+yOffset) {
+                            inCheck = true;
                         }
                     }
                 }
             }
         }
-        return false;
+        // move the king back
+        kingCell = cells.get(y+yOffset).get(x+xOffset);
+        cells.get(y+yOffset).set(x+xOffset, newCellOriginal); // empty out the new cell, this should be the original cell, not a new board cell
+
+        kingCell.SetCoords(x, y);
+        kingCell.SetHasMoved(kingMoved);
+        cells.get(y).set(x, kingCell); // put the king back on original cell
+
+        return inCheck;
     }
 
     public BoardCell Cell(int x, int y) {
@@ -167,7 +184,7 @@ public class Board {
         }
 
         selectedCell.SetCoords(x, y);
-        selectedCell.SetHasMoved();
+        selectedCell.SetHasMoved(true);
         selectedCell.SetEnPassant(cells.get(y).get(x).IsEnPassant());
         cells.get(y).set(x, selectedCell);
         // IF THE CELL MOVED TO BY THE PAWN IS ENPASSANT2, THEN REMOVE THE PIECE BELOW IT
@@ -189,14 +206,14 @@ public class Board {
                 BoardCell rookCell = cells.get(y).get(x-2);
                 cells.get(y).set(x-2, new BoardCell(x-2, y));
                 rookCell.SetCoords(x+1, y);
-                rookCell.SetHasMoved();
+                rookCell.SetHasMoved(true);
                 cells.get(y).set(x+1, rookCell);
             }
             else if (x == 6) {
                 BoardCell rookCell = cells.get(y).get(x+1);
                 cells.get(y).set(x+1, new BoardCell(x+1, y));
                 rookCell.SetCoords(x-1, y);
-                rookCell.SetHasMoved();
+                rookCell.SetHasMoved(true);
                 cells.get(y).set(x-1, rookCell);
             }
             else {

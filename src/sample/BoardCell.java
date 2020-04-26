@@ -118,7 +118,11 @@ public class BoardCell {
         return p1Piece;
     }
 
-    public void SetHasMoved() {
-        chessPiece.SetHasMoved();
+    public boolean HasMoved() {
+        return chessPiece.HasMoved();
+    }
+
+    public void SetHasMoved(boolean moved) {
+        chessPiece.SetHasMoved(moved);
     }
 }

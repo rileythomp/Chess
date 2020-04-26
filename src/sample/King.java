@@ -31,17 +31,22 @@ public class King extends ChessPiece {
                     moves.add(new Pair(xNew, yNew));
                 }
                 else {
-                    if (board.Cell(x, y).isP1Piece() && !board.Cell(xNew, yNew).isP1Piece()) {
-                        moves.add(new Pair(xNew, yNew));
-                    }
-                    if (!board.Cell(x, y).isP1Piece() && board.Cell(xNew, yNew).isP1Piece()) {
-                        moves.add(new Pair(xNew, yNew));
+                    if (CellHasEnemy(x , y, xNew, yNew, board)) {
+                        if (!board.InCheckAt(x, y, shiftPair.getKey(), shiftPair.getValue())) {
+                            moves.add(new Pair(xNew, yNew));
+                        }
                     }
                 }
             }
         }
 
         return moves;
+    }
+
+    private boolean CellHasEnemy(int x, int y, int xNew, int yNew, Board board) {
+        BoardCell curCell = board.Cell(x, y);
+        BoardCell newCell = board.Cell(xNew, yNew);
+        return (curCell.isP1Piece() && !newCell.isP1Piece()) || (!curCell.isP1Piece() && newCell.isP1Piece());
     }
 
     public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board) {
@@ -51,18 +56,13 @@ public class King extends ChessPiece {
             int yNew = y + shiftPair.getValue();
             if (xNew >= 0 && xNew <= 7 && yNew >= 0 && yNew <= 7) {
                 if (!board.Cell(xNew, yNew).HasPiece()) {
-                    if (!board.InCheckAt(xNew, yNew, 0)) {
+                    if (!board.InCheckAt(x, y, shiftPair.getKey(), shiftPair.getValue())) {
                         moves.add(new Pair(xNew, yNew));
                     }
                 }
                 else {
-                    if (board.Cell(x, y).isP1Piece() && !board.Cell(xNew, yNew).isP1Piece()) {
-                        if (!board.InCheckAt(xNew, yNew, 0)) {
-                            moves.add(new Pair(xNew, yNew));
-                        }
-                    }
-                    if (!board.Cell(x, y).isP1Piece() && board.Cell(xNew, yNew).isP1Piece()) {
-                        if (!board.InCheckAt(xNew, yNew, 0)) {
+                    if (CellHasEnemy(x , y, xNew, yNew, board)) {
+                        if (!board.InCheckAt(x, y, shiftPair.getKey(), shiftPair.getValue())) {
                             moves.add(new Pair(xNew, yNew));
                         }
                     }
@@ -72,12 +72,12 @@ public class King extends ChessPiece {
 
         // castling
         if (!hasMoved && !board.Cell(x+3, y).ChessPiece().hasMoved && !board.Cell(x+1, y).HasPiece() && !board.Cell(x+2, y).HasPiece()) {
-            if (!board.InCheckAt(x, y, 0) && !board.InCheckAt(x, y, 1) && !board.InCheckAt(x, y, 2)) {
+            if (!board.InCheckAt(x, y, 0, 0) && !board.InCheckAt(x, y, 1, 0) && !board.InCheckAt(x, y, 2, 0)) {
                 moves.add(new Pair(x+2, y));
             }
         }
         if (!hasMoved && !board.Cell(x-4, y).ChessPiece().hasMoved && !board.Cell(x-1, y).HasPiece() && !board.Cell(x-2, y).HasPiece() && !board.Cell(x-3, y).HasPiece()) {
-            if (!board.InCheckAt(x, y, 0) && !board.InCheckAt(x, y, -1) && !board.InCheckAt(x, y, -2)) {
+            if (!board.InCheckAt(x, y, 0, 0) && !board.InCheckAt(x, y, -1, 0) && !board.InCheckAt(x, y, -2, 0)) {
                 moves.add(new Pair(x-2, y));
             }
         }

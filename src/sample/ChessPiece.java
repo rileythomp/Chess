@@ -17,8 +17,12 @@ public class ChessPiece {
         return this.Moves(x, y, board).size() > 0;
     }
 
-    public void SetHasMoved() {
-        hasMoved = true;
+    public void SetHasMoved(boolean moved) {
+        hasMoved = moved;
+    }
+
+    public boolean HasMoved() {
+        return hasMoved;
     }
 
     public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board) {
