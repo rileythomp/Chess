@@ -6,7 +6,6 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class King extends ChessPiece {
-    private final ArrayList<Pair<Integer, Integer>> shiftPairs = new ArrayList<>();
 
 
     public King() {
@@ -18,10 +17,9 @@ public class King extends ChessPiece {
         shiftPairs.add(new Pair(-1, 1));
         shiftPairs.add(new Pair(-1, 0));
         shiftPairs.add(new Pair(-1, -1));
-
     }
 
-    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board, boolean canCastle) {
+    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board, boolean canCastle, boolean checkKingCheck) {
         ArrayList<Pair<Integer, Integer>> moves = new ArrayList<>();
         for (Pair<Integer, Integer> shiftPair : shiftPairs) {
             int xNew = x + shiftPair.getKey();
@@ -49,7 +47,7 @@ public class King extends ChessPiece {
         return (curCell.isP1Piece() && !newCell.isP1Piece()) || (!curCell.isP1Piece() && newCell.isP1Piece());
     }
 
-    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board) {
+    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board, boolean checkKingCheck) {
         ArrayList<Pair<Integer, Integer>> moves = new ArrayList<>();
         for (Pair<Integer, Integer> shiftPair : shiftPairs) {
             int xNew = x + shiftPair.getKey();
@@ -71,12 +69,12 @@ public class King extends ChessPiece {
         }
 
         // castling
-        if (!hasMoved && !board.Cell(x+3, y).ChessPiece().hasMoved && !board.Cell(x+1, y).HasPiece() && !board.Cell(x+2, y).HasPiece()) {
+        if (!hasMoved && board.Cell(x+3, y).HasPiece() && !board.Cell(x+3, y).ChessPiece().hasMoved && !board.Cell(x+1, y).HasPiece() && !board.Cell(x+2, y).HasPiece()) {
             if (!board.InCheckAt(x, y, 0, 0) && !board.InCheckAt(x, y, 1, 0) && !board.InCheckAt(x, y, 2, 0)) {
                 moves.add(new Pair(x+2, y));
             }
         }
-        if (!hasMoved && !board.Cell(x-4, y).ChessPiece().hasMoved && !board.Cell(x-1, y).HasPiece() && !board.Cell(x-2, y).HasPiece() && !board.Cell(x-3, y).HasPiece()) {
+        if (!hasMoved && board.Cell(x-4, y).HasPiece() && !board.Cell(x-4, y).ChessPiece().hasMoved && !board.Cell(x-1, y).HasPiece() && !board.Cell(x-2, y).HasPiece() && !board.Cell(x-3, y).HasPiece()) {
             if (!board.InCheckAt(x, y, 0, 0) && !board.InCheckAt(x, y, -1, 0) && !board.InCheckAt(x, y, -2, 0)) {
                 moves.add(new Pair(x-2, y));
             }

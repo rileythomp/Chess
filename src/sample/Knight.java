@@ -15,7 +15,7 @@ public class Knight extends ChessPiece {
         xShifts.add(2);
     }
 
-    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board) {
+    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board, boolean checkKingCheck) {
         ArrayList<Pair<Integer, Integer>> moves = new ArrayList<>();
         for (int xShift : xShifts) {
             int xNew = x+xShift;

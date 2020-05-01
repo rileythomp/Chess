@@ -2,19 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Chess.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Bishop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Chess.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/ChessView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/King.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Knight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Pawn.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Pieces.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Queen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Rook.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Turn.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/Util.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../jnw/src/Client.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../jnw/src/Client.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../jnw/src/ClientHandler.class" afterDir="false" />
@@ -33,14 +20,31 @@
       <change afterPath="$PROJECT_DIR$/../jnw/test/Server.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../jnw/test/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/Bishop.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/Board.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/BoardCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/BoardCell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/Chess.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/Chess.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/ChessPiece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/ChessPiece.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/ChessView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/ChessView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/ChessView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/ChessView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/ChessView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/ChessView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/King.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/King.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/Knight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/Pawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/Queen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/Queen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/sample/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/sample/Rook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Bishop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/BoardCell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/BoardCell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Chess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Chess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/ChessPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/ChessPiece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/ChessView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/ChessView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Rook.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -236,6 +240,7 @@
         </serviceView>
       </list>
     </option>
+    <option name="showServicesTree" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -287,10 +292,10 @@
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
     <state x="721" y="288" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587675157468" />
-    <state x="1044" y="488" key="#xdebugger.evaluate" timestamp="1587879810931">
+    <state x="1044" y="398" width="586" height="681" key="#xdebugger.evaluate" timestamp="1588301909346">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state x="1044" y="488" key="#xdebugger.evaluate/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587879810931" />
+    <state x="1044" y="398" width="586" height="681" key="#xdebugger.evaluate/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588301909346" />
     <state x="146" y="96" width="1675" height="885" key="DiffContextDialog" timestamp="1587834954621">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
@@ -299,66 +304,58 @@
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
     <state x="576" y="247" key="FileChooserDialogImpl/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587705207142" />
-    <state width="1827" height="344" key="GridCell.Tab.0.bottom" timestamp="1587880142313">
+    <state width="1827" height="242" key="GridCell.Tab.0.bottom" timestamp="1588302780803">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.0.bottom/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880142313" />
-    <state width="1827" height="344" key="GridCell.Tab.0.center" timestamp="1587880142313">
+    <state width="1827" height="242" key="GridCell.Tab.0.bottom/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780803" />
+    <state width="1827" height="242" key="GridCell.Tab.0.center" timestamp="1588302780803">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.0.center/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880142313" />
-    <state width="1827" height="344" key="GridCell.Tab.0.left" timestamp="1587880142313">
+    <state width="1827" height="242" key="GridCell.Tab.0.center/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780803" />
+    <state width="1827" height="242" key="GridCell.Tab.0.left" timestamp="1588302780803">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.0.left/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880142313" />
-    <state width="1827" height="344" key="GridCell.Tab.0.right" timestamp="1587880142313">
+    <state width="1827" height="242" key="GridCell.Tab.0.left/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780803" />
+    <state width="1827" height="242" key="GridCell.Tab.0.right" timestamp="1588302780803">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.0.right/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880142313" />
-    <state width="1827" height="344" key="GridCell.Tab.1.bottom" timestamp="1587880166976">
+    <state width="1827" height="242" key="GridCell.Tab.0.right/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780803" />
+    <state width="1827" height="242" key="GridCell.Tab.1.bottom" timestamp="1588302780592">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.1.bottom/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880166976" />
-    <state width="1827" height="344" key="GridCell.Tab.1.center" timestamp="1587880166976">
+    <state width="1827" height="242" key="GridCell.Tab.1.bottom/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780592" />
+    <state width="1827" height="242" key="GridCell.Tab.1.center" timestamp="1588302780592">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.1.center/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880166976" />
-    <state width="1827" height="344" key="GridCell.Tab.1.left" timestamp="1587880166976">
+    <state width="1827" height="242" key="GridCell.Tab.1.center/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780592" />
+    <state width="1827" height="242" key="GridCell.Tab.1.left" timestamp="1588302780592">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.1.left/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880166976" />
-    <state width="1827" height="344" key="GridCell.Tab.1.right" timestamp="1587880166976">
+    <state width="1827" height="242" key="GridCell.Tab.1.left/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780592" />
+    <state width="1827" height="242" key="GridCell.Tab.1.right" timestamp="1588302780592">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state width="1827" height="344" key="GridCell.Tab.1.right/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587880166976" />
+    <state width="1827" height="242" key="GridCell.Tab.1.right/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588302780592" />
     <state x="471" y="117" key="SettingsEditor" timestamp="1587705335920">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
     <state x="471" y="117" key="SettingsEditor/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587705335920" />
-    <state x="1073" y="131" width="710" height="807" key="find.popup" timestamp="1587879819160">
+    <state x="642" y="157" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587923012965">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state x="1073" y="131" width="710" height="807" key="find.popup/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587879819160" />
-    <state x="646" y="236" width="672" height="678" key="search.everywhere.popup" timestamp="1587780305588">
+    <state x="642" y="157" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587923012965" />
+    <state x="756" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587917066337">
       <screen x="47" y="24" width="1873" height="1056" />
     </state>
-    <state x="646" y="236" width="672" height="678" key="search.everywhere.popup/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587780305588" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sample/BoardCell.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sample/King.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="756" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587917066337" />
+    <state x="1073" y="131" width="710" height="807" key="find.popup" timestamp="1588301353010">
+      <screen x="47" y="24" width="1873" height="1056" />
+    </state>
+    <state x="1073" y="131" width="710" height="807" key="find.popup/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1588301353010" />
+    <state x="646" y="236" width="672" height="678" key="search.everywhere.popup" timestamp="1587881781994">
+      <screen x="47" y="24" width="1873" height="1056" />
+    </state>
+    <state x="646" y="236" width="672" height="678" key="search.everywhere.popup/1920.180.1600.900/47.24.1873.1056@47.24.1873.1056" timestamp="1587881781994" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Chess$Chess.ic" NAME="Chess Coverage Results" MODIFIED="1587782143299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

@@ -15,6 +15,7 @@ public class BoardCell {
     private boolean canBeMovedTo;
     private int enPassant;
     private boolean gettingPromoted;
+    private boolean pieceInCheck;
 
     public int xcoord;
     public int ycoord;
@@ -42,6 +43,14 @@ public class BoardCell {
             chessPiece = new Knight();
         }
         gettingPromoted = false;
+    }
+
+    public boolean IsInCheck() {
+        return pieceInCheck;
+    }
+
+    public void SetInCheck(boolean inCheck) {
+        pieceInCheck = inCheck;
     }
 
     public boolean IsGettingPromoted() {
@@ -79,7 +88,7 @@ public class BoardCell {
         if (!hasPiece) {
             return new ArrayList<>();
         }
-        return chessPiece.Moves(xcoord, ycoord, board);
+        return chessPiece.Moves(xcoord, ycoord, board, true);
     }
 
     public ChessPiece ChessPiece() {

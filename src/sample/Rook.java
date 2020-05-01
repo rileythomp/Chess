@@ -20,79 +20,48 @@ public class Rook extends ChessPiece {
 
     }
 
-    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board) {
+    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board, boolean checkKingCheck) {
         ArrayList<Pair<Integer, Integer>> moves = new ArrayList<>();
-        // up
-        int curHeight = y;
-        while (curHeight-1 >= 0) {
-            curHeight--;
-            if (!board.Cell(x, curHeight).HasPiece()) {
-                moves.add(new Pair(x, curHeight));
-            }
-            else {
-                if (board.Cell(x, y).isP1Piece() && !board.Cell(x, curHeight).isP1Piece()) {
-                    moves.add(new Pair(x, curHeight));
-                }
-                if (!board.Cell(x, y).isP1Piece() && board.Cell(x, curHeight).isP1Piece()) {
-                    moves.add(new Pair(x, curHeight));
-                }
-                break;
-            }
-        }
 
-        // right
+        moves.addAll(GetMovesInDir(board, x, y, 1, true, checkKingCheck)); // right
+        moves.addAll(GetMovesInDir(board, x, y, -1, true, checkKingCheck)); // left
+        moves.addAll(GetMovesInDir(board, x, y, 1, false, checkKingCheck)); // down
+        moves.addAll(GetMovesInDir(board, x, y, -1, false, checkKingCheck)); // up
+
+        return moves;
+    }
+
+    public ArrayList<Pair<Integer, Integer>> GetMovesInDir(Board board, int x, int y, int dir, boolean horizontal, boolean checkKingCheck) {
+        ArrayList<Pair<Integer, Integer>> moves = new ArrayList<>();
         int curWidth = x;
-        while (curWidth+1 <= 7) {
-            curWidth++;
-            if (!board.Cell(curWidth, y).HasPiece()) {
-                moves.add(new Pair(curWidth, y));
+        int curHeight = y;
+        while ((curWidth+dir >= 0 && curWidth+dir <= 7 && horizontal) || (curHeight+dir >= 0 && curHeight+dir <= 7 && !horizontal)) {
+            if (horizontal) {
+                curWidth += dir;
             }
             else {
-                if (board.Cell(x, y).isP1Piece() && !board.Cell(curWidth, y).isP1Piece()) {
-                    moves.add(new Pair(curWidth, y));
-                }
-                if (!board.Cell(x, y).isP1Piece() && board.Cell(curWidth, y).isP1Piece()) {
-                    moves.add(new Pair(curWidth, y));
-                }
-                break;
+                curHeight += dir;
             }
-        }
-        // down
-        curHeight = y;
-        while (curHeight+1 <= 7) {
-            curHeight++;
-            if (!board.Cell(x, curHeight).HasPiece()) {
-                moves.add(new Pair(x, curHeight));
-            }
-            else {
-                if (board.Cell(x, y).isP1Piece() && !board.Cell(x, curHeight).isP1Piece()) {
-                    moves.add(new Pair(x, curHeight));
-                }
-                if (!board.Cell(x, y).isP1Piece() && board.Cell(x, curHeight).isP1Piece()) {
-                    moves.add(new Pair(x, curHeight));
-                }
-                break;
-            }
-        }
 
-        // left
-        curWidth = x;
-        while (curWidth-1 >= 0) {
-            curWidth--;
-            if (!board.Cell(curWidth, y).HasPiece()) {
-                moves.add(new Pair(curWidth, y));
+            // if moving the piece to curWidth, curHeight puts king in check, then it cant move and continue
+            //
+            if (checkKingCheck && board.MovePutsOwnKingInCheck(x, y, curWidth, curHeight)) {
+                continue;
+            }
+
+            if (!board.Cell(curWidth, curHeight).HasPiece()) {
+                moves.add(new Pair(curWidth, curHeight));
             }
             else {
-                if (board.Cell(x, y).isP1Piece() && !board.Cell(curWidth, y).isP1Piece()) {
-                    moves.add(new Pair(curWidth, y));
+                if (board.Cell(x, y).isP1Piece() && !board.Cell(curWidth, curHeight).isP1Piece()) {
+                    moves.add(new Pair(curWidth, curHeight));
                 }
-                if (!board.Cell(x, y).isP1Piece() && board.Cell(curWidth, y).isP1Piece()) {
-                    moves.add(new Pair(curWidth, y));
+                if (!board.Cell(x, y).isP1Piece() && board.Cell(curWidth, curHeight).isP1Piece()) {
+                    moves.add(new Pair(curWidth, curHeight));
                 }
                 break;
             }
         }
-
         return moves;
     }
 }

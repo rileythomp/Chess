@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -165,6 +166,22 @@ public class ChessView {
                 }
             }
         }
+
+        DisplayLines();
+    }
+
+    private void DisplayLines() {
+        for (int i = 0; i <= BOARD_LEN; ++i) {
+            Line line = new Line(((SCREEN_WIDTH - BOARD_LEN*CELL_LEN)/2), CELL_LEN*i + 50, ((SCREEN_WIDTH - BOARD_LEN*CELL_LEN)/2) + CELL_LEN*BOARD_LEN, 50 + CELL_LEN*i);
+            line.setStroke(Color.BLACK);
+            gameRoot.getChildren().add(line);
+        }
+
+        for (int i = 0; i <= BOARD_LEN; ++i) {
+            Line line = new Line(((SCREEN_WIDTH - BOARD_LEN*CELL_LEN)/2) + CELL_LEN*i, 50, ((SCREEN_WIDTH - BOARD_LEN*CELL_LEN)/2) + CELL_LEN*i, 50 + CELL_LEN*BOARD_LEN);
+            line.setStroke(Color.BLACK);
+            gameRoot.getChildren().add(line);
+        }
     }
 
     private void DisplayCells(int i, int j, Board board, BoardCell boardCell) {
@@ -228,8 +245,8 @@ public class ChessView {
             cellView.opacityProperty().set(0.5);
         }
         if (boardCell.CanBeMovedTo()) {
-            cellView.setFill(Color.GREEN);
-            cellView.opacityProperty().set(0.5);
+            cellView.setFill(Color.LIGHTGREEN);
+            cellView.opacityProperty().set(0.45);
         }
 //        if (boardCell.IsEnPassant() > 0) {
 //            cellView.setFill(Color.RED);
@@ -237,6 +254,11 @@ public class ChessView {
 //        }
         if (boardCell.IsGettingPromoted()) {
             cellView.setFill(Color.BLUE);
+            cellView.opacityProperty().set(0.5);
+        }
+
+        if (boardCell.IsInCheck()) {
+            cellView.setFill(Color.RED);
             cellView.opacityProperty().set(0.5);
         }
         cellView.addEventFilter(MouseEvent.MOUSE_CLICKED, handleCellClick);

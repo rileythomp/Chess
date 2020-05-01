@@ -2,6 +2,7 @@ package sample;
 
 import javafx.util.Pair;
 
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 
 public class Board {
@@ -70,6 +71,7 @@ public class Board {
     }
 
     public void MarkPossibleMoves(BoardCell startCell) {
+        // when calcing moves here, check for king in check
         ArrayList<Pair<Integer, Integer>> possibleMoves = startCell.Moves(this);
 
         // possible moves on the board, need to check for pieces blocking
@@ -80,10 +82,10 @@ public class Board {
 
     public ArrayList<Pair<Integer, Integer>> GetEnemyMoves(int i, int j) {
         if (cells.get(i).get(j).PieceName() == Pieces.KING) {
-            return cells.get(i).get(j).ChessPiece().Moves(j, i, this, true);
+            return cells.get(i).get(j).ChessPiece().Moves(j, i, this, true, false);
         }
         else {
-            return cells.get(i).get(j).ChessPiece().Moves(j, i, this);
+            return cells.get(i).get(j).ChessPiece().Moves(j, i, this, false);
         }
     }
 
@@ -91,45 +93,6 @@ public class Board {
         BoardCell curCell = cells.get(i).get(j);
         BoardCell kingCell = cells.get(y).get(x);
         return curCell.HasPiece() && (curCell.isP1Piece() && !kingCell.isP1Piece() || !curCell.isP1Piece() && kingCell.isP1Piece());
-    }
-
-    public boolean InCheckAt(int x, int y, int xOffset, int yOffset) {
-        // x and y are the start coords of the king
-        // move the king temporarily
-        boolean inCheck = false;
-
-        BoardCell kingCell = cells.get(y).get(x);
-        boolean kingMoved = kingCell.HasMoved();
-        BoardCell newCellOriginal = cells.get(y+yOffset).get(x+xOffset);
-        cells.get(y).set(x, new BoardCell(x, y)); // empty out the current cell
-
-        kingCell.SetCoords(x+xOffset, y+yOffset);
-        kingCell.SetHasMoved(true);
-        cells.get(y+yOffset).set(x+xOffset, kingCell); // put king on the new cell
-
-        // see if the enemypiece can hit the king in its new spot
-        for (int i = 0; i < LEN; ++i) {
-            for (int j = 0; j < LEN; ++j) {
-                if (EnemyCellAt(i, j, x+xOffset, y+yOffset)) {
-                    ArrayList<Pair<Integer, Integer>> enemyMoves = GetEnemyMoves(i, j);
-
-                    for (Pair<Integer, Integer> enemyMove : enemyMoves) {
-                        if (enemyMove.getKey() == x+xOffset && enemyMove.getValue() == y+yOffset) {
-                            inCheck = true;
-                        }
-                    }
-                }
-            }
-        }
-        // move the king back
-        kingCell = cells.get(y+yOffset).get(x+xOffset);
-        cells.get(y+yOffset).set(x+xOffset, newCellOriginal); // empty out the new cell, this should be the original cell, not a new board cell
-
-        kingCell.SetCoords(x, y);
-        kingCell.SetHasMoved(kingMoved);
-        cells.get(y).set(x, kingCell); // put the king back on original cell
-
-        return inCheck;
     }
 
     public BoardCell Cell(int x, int y) {
@@ -224,6 +187,106 @@ public class Board {
         for (int i = 0; i < LEN; ++i) {
             for (int j = 0; j < LEN; ++j) {
                 cells.get(i).get(j).SetEnPassant(cells.get(i).get(j).IsEnPassant()%2);
+            }
+        }
+    }
+
+    public boolean InCheckAt(int x, int y, int xOffset, int yOffset) {
+        // x and y are the start coords of the king
+        // move the king temporarily
+        boolean inCheck = false;
+
+        BoardCell kingCell = cells.get(y).get(x);
+        boolean kingMoved = kingCell.HasMoved();
+        BoardCell newCellOriginal = cells.get(y+yOffset).get(x+xOffset);
+        cells.get(y).set(x, new BoardCell(x, y)); // empty out the current cell
+
+        kingCell.SetCoords(x+xOffset, y+yOffset);
+        kingCell.SetHasMoved(true);
+        cells.get(y+yOffset).set(x+xOffset, kingCell); // put king on the new cell
+
+        // see if the enemypiece can hit the king in its new spot
+        for (int i = 0; i < LEN; ++i) {
+            for (int j = 0; j < LEN; ++j) {
+                if (EnemyCellAt(i, j, x+xOffset, y+yOffset)) {
+                    ArrayList<Pair<Integer, Integer>> enemyMoves = GetEnemyMoves(i, j);
+                    for (Pair<Integer, Integer> enemyMove : enemyMoves) {
+                        if (enemyMove.getKey() == x+xOffset && enemyMove.getValue() == y+yOffset) {
+                            inCheck = true;
+                        }
+                    }
+                }
+            }
+        }
+        // move the king back
+        kingCell = cells.get(y+yOffset).get(x+xOffset);
+        cells.get(y+yOffset).set(x+xOffset, newCellOriginal); // empty out the new cell, this should be the original cell, not a new board cell
+
+        kingCell.SetCoords(x, y);
+        kingCell.SetHasMoved(kingMoved);
+        cells.get(y).set(x, kingCell); // put the king back on original cell
+
+        return inCheck;
+    }
+
+    public boolean MovePutsOwnKingInCheck(int x, int y, int curWidth, int curHeight) {
+        // if moving the piece to curWidth, curHeight puts OWN king in check, then it cant move and continue
+        boolean putsOwnKingInCheck = false;
+        boolean isP1 = cells.get(y).get(x).isP1Piece();
+
+        // move piece from x, y to curWidth, curHeight
+        // move the king temporarily
+
+        BoardCell startCell = cells.get(y).get(x);
+        boolean startMoved = startCell.HasMoved();
+        BoardCell newCellOriginal = cells.get(curHeight).get(curWidth);
+        cells.get(y).set(x, new BoardCell(x, y)); // empty out the current cell
+
+        startCell.SetCoords(curWidth, curHeight);
+        startCell.SetHasMoved(true);
+        cells.get(curHeight).set(curWidth, startCell); // put king on the new cell
+
+        // find my king
+        // is he in check?
+        // if he is, return true
+        // if he is not, continue on
+        // dont check ofr king in check here
+        for (int i = 0; i < LEN; ++i) {
+            for (int j = 0; j < LEN; ++j) {
+                if (cells.get(i).get(j).PieceName() == Pieces.KING && cells.get(i).get(j).isP1Piece() == isP1) {
+                    if (InCheckAt(j, i, 0, 0)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // move the king back
+        startCell = cells.get(curHeight).get(curWidth);
+        cells.get(curHeight).set(curWidth, newCellOriginal); // empty out the new cell, this should be the original cell, not a new board cell
+
+        startCell.SetCoords(x, y);
+        startCell.SetHasMoved(startMoved);
+        cells.get(y).set(x, startCell); // put the king back on original cell
+
+        return putsOwnKingInCheck;
+    }
+
+    public void UpdateKingInCheck() {
+        // dont worry about putting king in check here
+        for (int i = 0; i < LEN; ++i) {
+            for (int j = 0; j < LEN; ++j) {
+                if (cells.get(i).get(j).PieceName() == Pieces.KING) {
+//                    ArrayList<Pair<Integer, Integer>> kingShiftPairs = cells.get(i).get(j).ChessPiece().GetShiftPairs();
+//                    for (Pair<Integer, Integer> kingShiftPair : kingShiftPairs) {
+//                        int kingShiftX = kingShiftPair.getKey();
+//                        int kingShiftY = kingShiftPair.getValue();
+//                        if (InCheckAt(j, i, kingShiftX, kingShiftY)) {
+//                            cells.get(i).get(j).SetInCheck(true);
+//                        }
+//                    }
+                    cells.get(i).get(j).SetInCheck(InCheckAt(j, i, 0, 0));
+                }
             }
         }
     }

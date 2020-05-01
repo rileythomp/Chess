@@ -36,6 +36,8 @@ public class Chess {
             turn = Turn.P2PromotionSelect;
         }
         board.ResetCells();
+        // do not consider a move putting the king in check
+        board.UpdateKingInCheck();
     }
 
     public void SelectPiece(BoardCell boardCell, boolean updateTurn) {
@@ -44,6 +46,7 @@ public class Chess {
         }
         board.ResetCells();
         boardCell.ClickCell();
+        // check if moving king into check when doing this
         board.MarkPossibleMoves(boardCell);
     }
 

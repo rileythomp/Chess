@@ -11,7 +11,7 @@ public class Pawn extends ChessPiece {
         hasMoved = false;
     }
 
-    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board) {
+    public ArrayList<Pair<Integer, Integer>> Moves(int x, int y, Board board, boolean checkKingCheck) {
         ArrayList<Pair<Integer, Integer>> moves = new ArrayList<>();
         if (y + direction >= 0 && y + direction <= 7) {
             if (!board.Cell(x, y + direction).HasPiece()) {
